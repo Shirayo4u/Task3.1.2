@@ -4,14 +4,13 @@ import com.example.ProjectBoot1.dao.RoleDao;
 import com.example.ProjectBoot1.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
-public class RoleServiceImpl implements RoleService {
-
+public class RoleServiceImpl implements RoleService{
     private final RoleDao roleDao;
 
     @Autowired
@@ -20,15 +19,18 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Set<Role> getRoleByName(String roleName) {
-        return roleDao.getRoleByName(roleName);
+    public List<Role> getAllRoles() {
+        return roleDao.getAllRoles();
     }
 
-
     @Override
-    @Transactional(readOnly = true)
-    public List<Role> getRoles() {
-        return roleDao.getRoles();
+    public Set<Role> findRolesByName(String roleName) {
+        Set<Role> roles = new HashSet<>();
+        for (Role role : getAllRoles()) {
+            if (roleName.contains(role.getName())) {
+                roles.add(role);
+            }
+        }
+        return roles;
     }
 }

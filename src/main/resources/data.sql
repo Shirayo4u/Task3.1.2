@@ -1,8 +1,8 @@
-INSERT INTO roles(role_name) VALUES ('ROLE_USER'),
+INSERT INTO roles(name) VALUES ('ROLE_USER'),
                                ('ROLE_ADMIN');
 
-INSERT INTO users(name, lastname, password, age, email) VALUES ('user', 'userov', '$2a$12$YLz/yqjc0/HGgS.dBbDoiucnJHNuWOlbBQPsfXpj65BkL0THHvpfK', 23, 'pomogite@mail.ru'),
-                                                               ('admin', 'adminov', '$2a$12$RDJQjXlNSQ5YRvzdQxGtUu.i4.QF/VJL7TSTjt2M.s8ZCAgHcfqnO', 21, 'sos@mail.ru');
+INSERT INTO users(age, email, last_name, password, username) VALUES (22, 'pomogite@mail.ru', 'userov', '$2a$12$7pIopZ3eKtdMaicIbedBwOmagM4/XmElKhwvaj6uIEDtWeq6tWTRi', 'user'),
+                                                                    (23, 'sos@mail.ru', 'adminov', '$2a$12$QLMRL99R4vJDDttsSGFRR.0e60HUllQrCfltfUrfbQy2J4hX2MRqW', 'admin');
 
 INSERT INTO users_roles VALUES (1, 1),
                                (2, 1),

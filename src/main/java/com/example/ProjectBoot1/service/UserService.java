@@ -1,20 +1,20 @@
 package com.example.ProjectBoot1.service;
 
-
 import com.example.ProjectBoot1.model.User;
 
 import java.util.List;
 
-public interface UserService {
-    void addUser(User user, long[] listRoles);
+public interface UserService{
 
-    List<User> getUsers();
+    void saveUser(User user);
 
-    User getUserById(long id);
+    User getUserById(Long id);
+
+    void updateUser(User user);
+
+    void deleteUser(Long id);
+
+    List<User> getAllUsers();
 
     User getUserByName(String name);
-
-    void updateUser(User user, long[] roleId);
-
-    void deleteUser(long id);
 }

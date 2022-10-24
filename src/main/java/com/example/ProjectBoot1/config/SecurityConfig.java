@@ -1,6 +1,8 @@
 package com.example.ProjectBoot1.config;
 
+import com.example.ProjectBoot1.security.LoginSuccessHandler;
 import com.example.ProjectBoot1.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -11,35 +13,35 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     private final LoginSuccessHandler loginSuccessHandler;
     private final UserServiceImpl userService;
 
-    public WebSecurityConfig(LoginSuccessHandler loginSuccessHandler, @Lazy UserServiceImpl userService) {
+    @Autowired
+    public SecurityConfig(LoginSuccessHandler loginSuccessHandler, UserServiceImpl userService) {
         this.loginSuccessHandler = loginSuccessHandler;
         this.userService = userService;
     }
 
-
     @Bean
     @Lazy
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
+        return new BCryptPasswordEncoder();
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+    protected void configure(HttpSecurity http) throws Exception {
+        http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().successHandler(new LoginSuccessHandler())
+                .formLogin().successHandler(loginSuccessHandler)
                 .permitAll()
                 .and()
                 .logout()
